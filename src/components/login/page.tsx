@@ -1,8 +1,11 @@
-'use client'
+'use client'; // Ensure this is at the top of the file
+
 import React, { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 
 const Login: React.FC = () => {
+  const router = useRouter();
   const [userName, setUserName] = useState('');
   const [password, setPassword] = useState('');
 
@@ -29,12 +32,14 @@ const Login: React.FC = () => {
       });
 
       if (response.ok) {
+        router.push('/feed');
         alert('Login successful');
       } else {
         const data = await response.json();
-        console.error('Login failed:', data.message);
+        alert('Login failed: Enter correct email or password');
       }
     } catch (error) {
+      alert('Something went wrong');
       console.error('Error submitting form data:', error);
     }
   };
@@ -76,8 +81,10 @@ const Login: React.FC = () => {
               Login
             </button>
           </div>
+          <p className="subheading">
+        Do not have an account? <Link href="/signup">Sign Up</Link>
+      </p>
         </form>
-        
       </div>
     </div>
   );
